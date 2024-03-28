@@ -15,10 +15,18 @@ let package = Package(
             targets: ["GeoFireUtils"]
         )
     ],
+    dependencies: [
+        .package(name: "Firebase",
+                 url: "https://github.com/firebase/firebase-ios-sdk.git",
+                 "10.20.0"..<"11.0.0"),
+    ],
     targets: [
         .target(
             name: "GeoFire",
-            dependencies: ["GeoFireUtils"],
+            dependencies: [
+                "GeoFireUtils",
+                .product(name: "FirebaseDatabase", package: "Firebase")
+            ],
             path: "GeoFire",
             exclude: [
                 "./Utils",
@@ -27,7 +35,9 @@ let package = Package(
         ),
         .testTarget(
             name: "GeoFireTests",
-            dependencies: ["GeoFire"],
+            dependencies: [
+                "GeoFire"
+            ],
             path: "GeoFireTests",
             exclude: [
                 "GeoFireTests-Info.plist",
